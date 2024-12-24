@@ -1,11 +1,12 @@
 ﻿using Android.Content;
 using Android.OS;
 using Plugin.Toolkit.Image.Enums;
+using Plugin.Toolkit.Image.Interfaces;
 using Application = Android.App.Application;
 
 namespace Plugin.Toolkit.Image.Platforms.Android
 {
-    internal class Images : ImageToolkitInterfaces
+    public class Images : IImageToolkitView
     {
         public void FromUrl(string url, CacheType cacheType = CacheType.None)
         {

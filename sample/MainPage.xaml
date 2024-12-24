@@ -30,6 +30,19 @@
             <Button Clicked="Button_Clicked_2"
                     HorizontalOptions="Fill"
                     Text="Image From Base64" />
+
+            <Label x:Name="image_base64" />
+
+            <Button Clicked="Button_Clicked_3"
+                    HorizontalOptions="Fill"
+                    Text="Take Image" />
+
+            <Button Clicked="Button_Clicked_4"
+                    HorizontalOptions="Fill"
+                    Text="Pick Image" />
+
+            <Image x:Name="image_sources" HeightRequest="300" />
+
         </VerticalStackLayout>
     </ScrollView>
 

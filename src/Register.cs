@@ -1,4 +1,7 @@
 ﻿using FFImageLoading.Maui;
+using Plugin.Toolkit.Image.Interfaces;
+using Plugin.Toolkit.Image.Services;
+
 #if ANDROID
 using Plugin.Toolkit.Image.Platforms.Android;
 #endif
@@ -15,7 +18,7 @@ namespace Plugin.Toolkit.Image
         public static MauiAppBuilder UseImageToolkit(this MauiAppBuilder builder)
         {
 #if ANDROID
-            DependencyService.Register<ImageToolkitInterfaces, Images>();
+            DependencyService.Register<IImageToolkitView, Images>();
 #endif
             builder.UseFFImageLoading();
             return builder;

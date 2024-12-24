@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Plugin.Toolkit.Image.Enums
+﻿namespace Plugin.Toolkit.Image.Enums
 {
     /// <summary>
     /// Enumeration to specify the source of the image.
@@ -20,6 +14,11 @@ namespace Plugin.Toolkit.Image.Enums
         /// Image sourced from a local file path.
         /// </summary>
         Local,
+
+        /// <summary>
+        /// Image sourced from a stream.
+        /// </summary>
+        Stream,
 
         /// <summary>
         /// Image sourced from an image object.

@@ -44,6 +44,10 @@
 		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
 	</PropertyGroup>
 	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net8.0-android'">
+		<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -69,7 +73,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\src\Plugin.Toolkit.Image\Plugin.Toolkit.Image.csproj" />
+	  <ProjectReference Include="..\src\Plugin.Toolkit.Image.csproj" />
 	</ItemGroup>
 
 </Project>

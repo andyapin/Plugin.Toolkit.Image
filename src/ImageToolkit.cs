@@ -1,9 +1,17 @@
 ﻿using Plugin.Toolkit.Image.Enums;
+using Plugin.Toolkit.Image.Interfaces;
+using Plugin.Toolkit.Image.Services;
 
 namespace Plugin.Toolkit.Image
 {
     public class ImageToolkit
     {
+        public ImagePickerService ImageRequest { get; set; }
+        public ImageToolkit()
+        {
+            ImageRequest = new ImagePickerService();
+        }
+
         /// <summary>
         /// Downloads and Show an image from a URL. Default is no caching.
         /// <para></para>
@@ -16,7 +24,7 @@ namespace Plugin.Toolkit.Image
         /// </summary>
         public static void FromUrl(string url, CacheType cacheType = CacheType.None)
         {
-            DependencyService.Get<ImageToolkitInterfaces>().FromUrl(url, cacheType);
+            DependencyService.Get<IImageToolkitView>().FromUrl(url, cacheType);
         }
 
         /// <summary>
@@ -30,7 +38,7 @@ namespace Plugin.Toolkit.Image
         /// </summary>
         public static void FromLocal(string imageName)
         {
-            DependencyService.Get<ImageToolkitInterfaces>().FromLocal(imageName);
+            DependencyService.Get<IImageToolkitView>().FromLocal(imageName);
         }
 
         /// <summary>
@@ -44,9 +52,7 @@ namespace Plugin.Toolkit.Image
         /// </summary>
         public static void FromBase64(string base64)
         {
-            DependencyService.Get<ImageToolkitInterfaces>().FromBase64(base64);
+            DependencyService.Get<IImageToolkitView>().FromBase64(base64);
         }
-
-        
     }
 }
