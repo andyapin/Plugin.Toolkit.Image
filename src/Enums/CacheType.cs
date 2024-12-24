@@ -7,29 +7,28 @@ using System.Threading.Tasks;
 namespace Plugin.Toolkit.Image.Enums
 {
     /// <summary>
-    /// Enumeration to specify the source of the image.
+    /// Specifies the type of caching to use for images.
     /// </summary>
-    public enum ImageFrom
+    public enum CacheType
     {
         /// <summary>
-        /// Image sourced from a URL.
+        /// Cache images in memory only.
         /// </summary>
-        Url,
+        Memory,
 
         /// <summary>
-        /// Image sourced from a local file path.
+        /// Cache images on disk only.
         /// </summary>
-        Local,
+        Disk,
 
         /// <summary>
-        /// Image sourced from an image object.
+        /// Cache images in both memory and disk.
         /// </summary>
-        ImageSource,
+        All,
 
         /// <summary>
-        /// Image sourced from a Base64 encoded string.
+        /// Do not cache images.
         /// </summary>
-        Base64
+        None
     }
-
 }

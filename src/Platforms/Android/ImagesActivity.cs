@@ -6,6 +6,7 @@ using AndroidX.AppCompat.Widget;
 using FFImageLoading;
 using FFImageLoading.Helpers;
 using Microsoft.Maui.Controls.Compatibility;
+using Plugin.Toolkit.Image.Enums;
 using AndroidBase = Android;
 
 namespace Plugin.Toolkit.Image.Platforms.Android
@@ -26,12 +27,12 @@ namespace Plugin.Toolkit.Image.Platforms.Android
             SetContentView(Resource.Layout.layout_image);
             Intent myIntent = Intent;
             string items = myIntent.GetStringExtra("ImageToolkit") ?? string.Empty;
-            string type = myIntent.GetStringExtra("ImageToolkitType") ?? nameof(Enums.ImageSource.ImageFrom.Url);
-            string cache = myIntent.GetStringExtra("ImageToolkitCacheType") ?? nameof(ImageToolkit.CacheType.None);
+            string type = myIntent.GetStringExtra("ImageToolkitType") ?? nameof(ImageFrom.Url);
+            string cache = myIntent.GetStringExtra("ImageToolkitCacheType") ?? nameof(CacheType.None);
             InitComponents(items, type, cache);
         }
 
-        protected void InitComponents(string imageValue, string type = nameof(Enums.ImageSource.ImageFrom.Url), string cacheType = nameof(ImageToolkit.CacheType.None))
+        protected void InitComponents(string imageValue, string type = nameof(ImageFrom.Url), string cacheType = nameof(CacheType.None))
         {
             var ImageView = FindViewById<Com.Davemorrissey.Labs.Subscaleview.SubsamplingScaleImageView>(Resource.Id.galleryImageView);
             ImageView.SetMinimumDpi(10);
@@ -40,32 +41,32 @@ namespace Plugin.Toolkit.Image.Platforms.Android
             var cache = FFImageLoading.Cache.CacheType.None;
             switch (cacheType)
             {
-                case nameof(ImageToolkit.CacheType.None):
+                case nameof(CacheType.None):
                     cache = FFImageLoading.Cache.CacheType.None;
                     break;
-                case nameof(ImageToolkit.CacheType.Memory):
+                case nameof(CacheType.Memory):
                     cache = FFImageLoading.Cache.CacheType.Memory;
                     break;
-                case nameof(ImageToolkit.CacheType.Disk):
+                case nameof(CacheType.Disk):
                     cache = FFImageLoading.Cache.CacheType.Disk;
                     break;
-                case nameof(ImageToolkit.CacheType.All):
+                case nameof(CacheType.All):
                     cache = FFImageLoading.Cache.CacheType.All;
                     break;
             }
             switch (type)
             {
-                case nameof(Enums.ImageSource.ImageFrom.Url):
+                case nameof(ImageFrom.Url):
                     ImageService.Instance.LoadUrl(imageValue).WithCache(cache).IntoAsync(imageTarget, _imageService);
                     break;
-                case nameof(Enums.ImageSource.ImageFrom.Base64):
+                case nameof(ImageFrom.Base64):
                     ImageService.Instance.LoadBase64String(imageValue).IntoAsync(imageTarget, _imageService);
                     break;
-                case nameof(Enums.ImageSource.ImageFrom.Local):
+                case nameof(ImageFrom.Local):
                     ImageService.Instance.LoadFileFromApplicationBundle(imageValue).IntoAsync(imageTarget, _imageService);
                     break;
             }
-            if (type == nameof(Enums.ImageSource.ImageFrom.Url))
+            if (type == nameof(ImageFrom.Url))
             {
                 var activityIndicatorView = FindViewById<AndroidBase.Widget.ProgressBar>(Resource.Id.activityIndicator);
                 if (activityIndicatorView is not null)

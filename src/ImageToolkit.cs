@@ -1,4 +1,6 @@
-﻿namespace Plugin.Toolkit.Image
+﻿using Plugin.Toolkit.Image.Enums;
+
+namespace Plugin.Toolkit.Image
 {
     public class ImageToolkit
     {
@@ -8,11 +10,11 @@
         /// Usage:
         /// <code>
         /// string imageUrl = "https://example.com/image.png";
-        /// ImageToolkit.CacheType cacheType = ImageToolkit.CacheType.Memory;
+        /// CacheType cacheType = CacheType.Memory;
         /// ImageToolkit.FromUrl(imageUrl, cacheType);
         /// </code>
         /// </summary>
-        public static void FromUrl(string url, ImageToolkit.CacheType cacheType = ImageToolkit.CacheType.None)
+        public static void FromUrl(string url, CacheType cacheType = CacheType.None)
         {
             DependencyService.Get<ImageToolkitInterfaces>().FromUrl(url, cacheType);
         }
@@ -45,30 +47,6 @@
             DependencyService.Get<ImageToolkitInterfaces>().FromBase64(base64);
         }
 
-        /// <summary>
-        /// Specifies the type of caching to use for images.
-        /// </summary>
-        public enum CacheType
-        {
-            /// <summary>
-            /// Cache images in memory only.
-            /// </summary>
-            Memory,
-
-            /// <summary>
-            /// Cache images on disk only.
-            /// </summary>
-            Disk,
-
-            /// <summary>
-            /// Cache images in both memory and disk.
-            /// </summary>
-            All,
-
-            /// <summary>
-            /// Do not cache images.
-            /// </summary>
-            None
-        }
+        
     }
 }
