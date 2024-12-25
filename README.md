@@ -25,6 +25,10 @@
 *   **Extensible:** Built with extensibility in mind, making it easy to add new features and customizations.
 * **Demo Project**: Includes a demo project to get you started
 
+
+![Demo](demo.gif)
+
+
 ### Prerequisites
 
 *   .NET SDK 8.0 or later
