@@ -31,15 +31,29 @@
                     HorizontalOptions="Fill"
                     Text="Image From Base64" />
 
-            <Label x:Name="image_base64" />
+            <Label />
 
             <Button Clicked="Button_Clicked_3"
                     HorizontalOptions="Fill"
                     Text="Take Image" />
 
+            <Button Clicked="Button_Clicked_7"
+                    HorizontalOptions="Fill"
+                    Text="Take Image Resize" />
+
             <Button Clicked="Button_Clicked_4"
                     HorizontalOptions="Fill"
                     Text="Pick Image" />
+
+            <Label x:Name="image_base64" Margin="0,15" />
+
+            <Button Clicked="Button_Clicked_5"
+                    HorizontalOptions="Fill"
+                    Text="Take Image As Base64" />
+
+            <Button Clicked="Button_Clicked_6"
+                    HorizontalOptions="Fill"
+                    Text="Pick Image As Base64" />
 
             <Image x:Name="image_sources" HeightRequest="300" />
 

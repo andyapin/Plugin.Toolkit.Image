@@ -2,6 +2,7 @@
 using Plugin.Toolkit.Image;
 using Plugin.Toolkit.Image.Enums;
 using Plugin.Toolkit.Image.Models;
+using System.Buffers.Text;
 
 namespace sample
 {
@@ -34,10 +35,17 @@ namespace sample
 
         private async void Button_Clicked_3(object sender, EventArgs e)
         {
+            var imgStream = await imageToolkit.ImageRequest.TakeImage();
+            image_sources.Source = ImageSource.FromStream(() => imgStream);
+        }
+
+        private async void Button_Clicked_7(object sender, EventArgs e)
+        {
             var imgStream = await imageToolkit.ImageRequest.TakeImage(new TakePickOptions()
             {
                 Height = 1280,
-                Width = 720
+                Width = 720,
+                Format = ImageFormat.Jpeg
             });
             image_sources.Source = ImageSource.FromStream(() => imgStream);
         }
@@ -46,6 +54,34 @@ namespace sample
         {
             var imgStream = await imageToolkit.ImageRequest.PickImage();
             image_sources.Source = ImageSource.FromStream(() => imgStream);
+        }
+
+        private async void Button_Clicked_5(object sender, EventArgs e)
+        {
+            string base64 = await imageToolkit.ImageRequest.TakeImageAsBase64();
+            if (DeviceInfo.Platform == DevicePlatform.WinUI)
+            {
+                image_base64.Text = base64;
+            }
+            else
+            {
+                Console.WriteLine(base64);
+                await DisplayAlert("See Console", "", "OK");
+            }
+        }
+
+        private async void Button_Clicked_6(object sender, EventArgs e)
+        {
+            string base64 = await imageToolkit.ImageRequest.PickImageAsBase64();
+            if (DeviceInfo.Platform == DevicePlatform.WinUI)
+            {
+                image_base64.Text = base64;
+            }
+            else
+            {
+                Console.WriteLine(base64);
+                await DisplayAlert("See Console", "", "OK");
+            }
         }
     }
 

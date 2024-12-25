@@ -13,7 +13,8 @@ namespace Plugin.Toolkit.Image.Helpers
                 {
                     Debug.WriteLine($"console: {message}");
                 }
-                Debug.WriteLine(ex.ToString());
+                if (ex != null)
+                    Debug.WriteLine(ex.ToString());
             }
             else
             {
@@ -21,7 +22,8 @@ namespace Plugin.Toolkit.Image.Helpers
                 {
                     System.Console.WriteLine($"console: {message}");
                 }
-                System.Console.WriteLine(ex.ToString());
+                if (ex != null)
+                    System.Console.WriteLine(ex.ToString());
             }
 #endif
         }

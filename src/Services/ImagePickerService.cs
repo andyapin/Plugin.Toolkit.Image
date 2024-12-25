@@ -1,10 +1,6 @@
-﻿
-using Microsoft.Maui.Graphics.Platform;
+﻿using Microsoft.Maui.Graphics.Platform;
 using Plugin.Toolkit.Image.Helpers;
-using Plugin.Toolkit.Image.Interfaces;
 using Plugin.Toolkit.Image.Models;
-using SkiaSharp;
-using System.Buffers.Text;
 using System.IO;
 
 namespace Plugin.Toolkit.Image.Services
@@ -37,69 +33,61 @@ namespace Plugin.Toolkit.Image.Services
         }
         private Stream ImageProccessingStream(Stream data)
         {
-            MemoryStream memoryStream = null;
-            try
+            using (var memoryStream = new MemoryStream())
             {
-                Microsoft.Maui.Graphics.IImage image = PlatformImage.FromStream(data);
-                if (image != null)
+                try
                 {
-                    var width = image.Width;
-                    var height = image.Height;
-                    if (width > height)
+                    Microsoft.Maui.Graphics.IImage image = PlatformImage.FromStream(data);
+                    if (image != null)
                     {
-                        // Landscape
-                        if (width > imageOptions.Width)
+                        var width = image.Width;
+                        var height = image.Height;
+
+                        if (width > height)
                         {
-                            Microsoft.Maui.Graphics.IImage newImage = image.Downsize(imageOptions.Width, true);
-                            newImage.Save(memoryStream, Microsoft.Maui.Graphics.ImageFormat.Jpeg);
-                            memoryStream.Seek(0, SeekOrigin.Begin);
+                            if (width > imageOptions.Width)
+                            {
+                                image = image.Downsize(imageOptions.Width);
+                            }
                         }
                         else
                         {
-                            Microsoft.Maui.Graphics.IImage newImage = image;
-                            newImage.Save(memoryStream, Microsoft.Maui.Graphics.ImageFormat.Jpeg);
-                            memoryStream.Seek(0, SeekOrigin.Begin);
+                            if (width > imageOptions.Height)
+                            {
+                                image = image.Downsize(imageOptions.Height);
+                            }
                         }
-                    }
-                    else
-                    {
-                        // Portrait or Square
-                        if (width > imageOptions.Height)
+
+                        if (image != null)
                         {
-                            Microsoft.Maui.Graphics.IImage newImage = image.Downsize(imageOptions.Height, true);
-                            newImage.Save(memoryStream, Microsoft.Maui.Graphics.ImageFormat.Jpeg);
-                            memoryStream.Seek(0, SeekOrigin.Begin);
-                        }
-                        else
-                        {
-                            Microsoft.Maui.Graphics.IImage newImage = image;
-                            newImage.Save(memoryStream, Microsoft.Maui.Graphics.ImageFormat.Jpeg);
+                            image.Save(memoryStream, imageOptions.Format);
                             memoryStream.Seek(0, SeekOrigin.Begin);
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    ConsoleHelper.Exception(ex);
+                }
+                return new MemoryStream(memoryStream.ToArray());
             }
-            catch (Exception ex)
-            {
-                ConsoleHelper.Exception(ex);
-            }
-            return memoryStream;
         }
         private string ImageBase64FromStream(Stream imageSource)
         {
-            string base64 = string.Empty;
-            MemoryStream memoryStream = null;
             try
             {
                 using (Stream stream = imageSource)
                 {
-                    stream.CopyTo(memoryStream);
-                    memoryStream.Position = 0;
-                    byte[] imageBytes = memoryStream.ToArray();
-                    string base64Image = Convert.ToBase64String(imageBytes);
-                    if (base64Image != "" && !string.IsNullOrEmpty(base64Image))
+                    using (MemoryStream memoryStream = new MemoryStream())
                     {
-                        base64 = base64Image;
+                        stream.CopyTo(memoryStream);
+                        memoryStream.Position = 0;
+                        byte[] imageBytes = memoryStream.ToArray();
+                        string base64Image = Convert.ToBase64String(imageBytes);
+                        if (!string.IsNullOrEmpty(base64Image))
+                        {
+                            return base64Image;
+                        }
                     }
                 }
             }
@@ -107,26 +95,29 @@ namespace Plugin.Toolkit.Image.Services
             {
                 ConsoleHelper.Exception(ex);
             }
-            return base64;
+            return string.Empty;
         }
         private async Task<Stream> TakeSource()
         {
             if (MediaPicker.Default.IsCaptureSupported)
             {
+                string tempPath = string.Empty;
                 Stream photoStream = null;
-                Stream Stream = null;
                 try
                 {
                     var photo = await MediaPicker.Default.CapturePhotoAsync();
                     if (photo != null)
                     {
-                        photoStream = await photo.OpenReadAsync();
+                        tempPath = System.IO.Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+                        using (FileStream localFileStream = File.OpenWrite(tempPath))
+                        {
+                            photoStream = await photo.OpenReadAsync();
+                        }
                         if (imageOptions == null)
                         {
                             return photoStream;
                         }
-                        Stream = ImageProccessingStream(photoStream);
-                        return Stream;
+                        return ImageProccessingStream(photoStream);
                     }
                 }
                 catch (Exception ex)
@@ -135,9 +126,9 @@ namespace Plugin.Toolkit.Image.Services
                 }
                 finally
                 {
-                    if (imageOptions != null)
+                    if (File.Exists(tempPath))
                     {
-                        Stream?.Close();
+                        File.Delete(tempPath);
                     }
                 }
             }
@@ -146,7 +137,6 @@ namespace Plugin.Toolkit.Image.Services
         private async Task<Stream> PickSource()
         {
             Stream photoStream = null;
-            Stream Stream = null;
             try
             {
                 var photo = await FilePicker.Default.PickAsync(PickerOption());
@@ -157,20 +147,12 @@ namespace Plugin.Toolkit.Image.Services
                     {
                         return photoStream;
                     }
-                    Stream = ImageProccessingStream(photoStream);
-                    return Stream;
+                    return ImageProccessingStream(photoStream);
                 }
             }
             catch (Exception ex)
             {
                 ConsoleHelper.Exception(ex);
-            }
-            finally
-            { 
-                if (imageOptions != null)
-                {
-                    Stream?.Close();
-                }
             }
             return null;
         }
@@ -217,17 +199,19 @@ namespace Plugin.Toolkit.Image.Services
         public async Task<string> PickImageAsBase64(TakePickOptions options = null)
         {
             imageOptions = options;
-            string base64 = string.Empty;
             try
             {
                 Stream stream = await PickSource();
-                base64 = ImageBase64FromStream(stream) ?? string.Empty;
+                if (stream != null)
+                {
+                    return ImageBase64FromStream(stream);
+                }
             }
             catch (Exception ex)
             {
                 ConsoleHelper.Exception(ex);
             }
-            return base64;
+            return string.Empty;
         }
 
         /// <summary>
@@ -245,16 +229,16 @@ namespace Plugin.Toolkit.Image.Services
         public async Task<Stream> TakeImage(TakePickOptions options = null)
         {
             imageOptions = options;
-            Stream memoryStream = null;
+            Stream stream = null;
             try
             {
-                memoryStream = await TakeSource();
+                stream = await TakeSource();
             }
             catch (Exception ex)
             {
                 ConsoleHelper.Exception(ex);
             }
-            return memoryStream;
+            return stream;
         }
 
         /// <summary>
@@ -272,17 +256,19 @@ namespace Plugin.Toolkit.Image.Services
         public async Task<string> TakeImageAsBase64(TakePickOptions options = null)
         {
             imageOptions = options;
-            string base64 = string.Empty;
             try
             {
                 Stream stream = await TakeSource();
-                base64 = ImageBase64FromStream(stream) ?? string.Empty;
+                if (stream != null)
+                {
+                    return ImageBase64FromStream(stream);
+                }
             }
             catch (Exception ex)
             {
                 ConsoleHelper.Exception(ex);
             }
-            return base64;
+            return string.Empty;
         }
     }
 }
