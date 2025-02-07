@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Plugin.Toolkit.Image.Helpers
+﻿namespace Plugin.Toolkit.Image.Helpers
 {
     internal class ConsoleHelper
     {

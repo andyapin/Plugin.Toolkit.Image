@@ -1,6 +1,4 @@
-﻿using Plugin.Toolkit.Image.Enums;
-
-namespace Plugin.Toolkit.Image.Models
+﻿namespace Plugin.Toolkit.Image.Models
 {
     /// <summary>
     /// Represents the options for taking or picking an image.

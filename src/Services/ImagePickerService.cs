@@ -1,7 +1,6 @@
 ﻿using Microsoft.Maui.Graphics.Platform;
 using Plugin.Toolkit.Image.Helpers;
 using Plugin.Toolkit.Image.Models;
-using System.IO;
 
 namespace Plugin.Toolkit.Image.Services
 {

@@ -1,6 +1,8 @@
 
 # Plugin.Toolkit.Image
 
+![icon](https://handityo.my.id/icon_nuget.png)
+
 [![NuGet](https://img.shields.io/nuget/v/Plugin.Toolkit.Image)](https://www.nuget.org/packages/Plugin.Toolkit.Image) 
 [![.NET MAUI](https://img.shields.io/badge/.NET%20MAUI-512BD4?style=flat&logo=dotnet&label=.NET%208.0)](https://dotnet.microsoft.com/en-us/apps/maui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -22,6 +24,10 @@
 *   **Cross-Platform (Future):** Designed to be cross-platform, with upcoming support for iOS.
 *   **Extensible:** Built with extensibility in mind, making it easy to add new features and customizations.
 * **Demo Project**: Includes a demo project to get you started
+
+
+![Demo](demo.gif)
+
 
 ### Prerequisites
 

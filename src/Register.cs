@@ -1,6 +1,5 @@
 ﻿using FFImageLoading.Maui;
 using Plugin.Toolkit.Image.Interfaces;
-using Plugin.Toolkit.Image.Services;
 
 #if ANDROID
 using Plugin.Toolkit.Image.Platforms.Android;
