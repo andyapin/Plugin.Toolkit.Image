@@ -45,7 +45,6 @@ namespace sample
             {
                 Height = 1280,
                 Width = 720,
-                Format = ImageFormat.Jpeg
             });
             image_sources.Source = ImageSource.FromStream(() => imgStream);
         }

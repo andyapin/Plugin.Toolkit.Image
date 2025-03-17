@@ -1,4 +1,7 @@
-﻿namespace Plugin.Toolkit.Image.Helpers
+﻿using Microsoft.Maui.Devices;
+using System.Diagnostics;
+
+namespace Plugin.Toolkit.Image.Helpers
 {
     internal class ConsoleHelper
     {

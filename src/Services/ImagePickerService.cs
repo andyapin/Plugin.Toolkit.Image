@@ -1,4 +1,7 @@
-﻿using Microsoft.Maui.Graphics.Platform;
+﻿using Microsoft.Maui.Devices;
+using Microsoft.Maui.Graphics.Platform;
+using Microsoft.Maui.Media;
+using Microsoft.Maui.Storage;
 using Plugin.Toolkit.Image.Helpers;
 using Plugin.Toolkit.Image.Models;
 

@@ -1,4 +1,5 @@
-﻿using Plugin.Toolkit.Image.Enums;
+﻿using Microsoft.Maui.Controls;
+using Plugin.Toolkit.Image.Enums;
 using Plugin.Toolkit.Image.Interfaces;
 using Plugin.Toolkit.Image.Services;
 

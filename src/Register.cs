@@ -1,4 +1,6 @@
 ﻿using FFImageLoading.Maui;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Hosting;
 using Plugin.Toolkit.Image.Interfaces;
 
 #if ANDROID
