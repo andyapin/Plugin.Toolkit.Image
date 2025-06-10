@@ -36,6 +36,7 @@
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<DebugSymbols>false</DebugSymbols>
 		<DebugType>None</DebugType>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
